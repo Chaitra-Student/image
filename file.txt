@@ -1,0 +1,38 @@
+Aim: Demonstration of reading, writing and organizing files.
+a) Write a python program to accept a file name from the user and perform the following 
+operations
+1. Display the first N line of the file 
+2. Find the frequency of occurrence of the word accepted from the user in the file
+import os.path
+import sys
+fname = input("Enter the filename : ")
+if not os.path.isfile(fname):
+ print("File", fname, "doesn't exists")
+ sys.exit(0)
+infile = open("filename", "r")
+lineList = infile.readlines()
+for i in range(20):
+ print(i+1,":",lineList[i])
+word = input("Enter a word : ")
+cnt = 0
+for line in lineList:
+ cnt += line.count(word)
+print("The word", word, "appears", cnt, "times in the file")
+b) Write a python program to create a ZIP file of a particular folder which contains several 
+files inside it.
+import os
+import sys
+import pathlib
+import zipfile
+dirName = input("Enter Directory name that you want to backup : ")
+if not os.path.isdir(dirName):
+ print("Directory", dirName, "doesn't exists")
+ sys.exit(0)
+curDirectory = pathlib.Path(dirName)
+with zipfile.ZipFile("myZip.zip", mode="w") as archive:
+ for file_path in curDirectory.rglob("*"):
+ archive.write(file_path, arcname=file_path.relative_to(curDirectory))
+if os.path.isfile("myZip.zip"):
+ print("Archive", "myZip.zip", "created successfully")
+else:
+ print("Error in creating zip archive")
